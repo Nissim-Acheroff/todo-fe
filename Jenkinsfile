@@ -21,8 +21,8 @@ pipeline {
             steps { 
                 withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'docker-pwd')]) {
                     sh "docker login -u nissimacheroff -p ${docker-pwd}"
-                    sh "docker push nissimacheroff/todo-fe:latest"
             }
+                    sh "docker push nissimacheroff/todo-fe:$BUILD_NUMBER"
         }
     }
 }
