@@ -27,11 +27,6 @@ ENV CI=true
 
 RUN npm test || true
 
-#IMAGE TO CREATE : YOURREPO/todo-fe:jenkins-JENKINSBUILDNUMBER
-
-#Ex: yanivomc/todo-fe:jenkins-4 & ALSO TAG IT AS LATEST
-#yanivomc/todo-fe:latest
-
 
 #DELIVERY ARTIFACT STAGE:
 
