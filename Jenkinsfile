@@ -1,6 +1,8 @@
 pipeline {
     agent any
-
+    environment {
+        docker-pwd = credentials('dockerhub-pwd')
+            }
     stages {
         stage('Build stage') {
             steps {
@@ -19,9 +21,7 @@ pipeline {
         }
         stage('push') {
             steps {
-                withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'docker-pwd')]) {
                     sh "docker login -u nissimacheroff -p  ${docker-pwd}"
-                }
                     sh "docker push nissimacheroff/todo-fe:latest"
         }
     }
