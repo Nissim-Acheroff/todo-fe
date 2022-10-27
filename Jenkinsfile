@@ -9,17 +9,17 @@ pipeline {
         }
         stage('Build stage') {
             steps {
-              sh 'DOCKER_BUILDKIT=1 docker build -f docker-pipeline-fe -t image-builder --target builder .'
+              sh 'DOCKER_BUILDKIT=1 docker build -f Dockerfile-pipelines -t image-builder --target builder .'
             }
         }
         stage('Test stage') {
             steps {
-              sh 'DOCKER_BUILDKIT=1 docker build -f docker-pipeline-fe -t image-testing --target testing .'
+              sh 'DOCKER_BUILDKIT=1 docker build -f Dockerfile-pipelines -t image-testing --target testing .'
             }
         }
         stage('Delivery stage') {
             steps {
-                sh 'DOCKER_BUILDKIT=1 docker build -f docker-pipeline-fe -t nissimacheroff/todo-fe:$BUILD_NUMBER --target delivery .'
+                sh 'DOCKER_BUILDKIT=1 docker build -f Dockerfile-pipelines -t nissimacheroff/todo-fe:$BUILD_NUMBER --target delivery .'
             }
         }
         stage('push') {
