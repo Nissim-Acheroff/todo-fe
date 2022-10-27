@@ -1,24 +1,20 @@
 pipeline {
     agent any
+
     stages {
-        stage('initws & prune') {
+      stage('Build stage') {
             steps {
-                cleanWs()
-            }
-        }
-        stage('Build stage') {
-            steps {
-              sh 'DOCKER_BUILDKIT=1 docker build -f Dockerfile-pipeline  -t build-test:$BUILD_NUMBER --target builder .'
+              sh 'DOCKER_BUILDKIT=1 docker build -f Dockerfile-pipelines  -t test:$BUILD_NUMBER --target builder .'
             }
         }
         stage('Test stage') {
             steps {
-              sh 'DOCKER_BUILDKIT=1 docker build -f Dockerfile-pipeline -t build-test:$BUILD_NUMBER --target test .'
+              sh 'DOCKER_BUILDKIT=1 docker build -f Dockerfile-pipelines -t test:$BUILD_NUMBER --target test .'
             }
         }
         stage('Delivery stage') {
             steps {
-                sh 'DOCKER_BUILDKIT=1 docker build -f Dockerfile-pipeline -t nissimacheroff/todo-fe:$BUILD_NUMBER --target delivery .'
+                sh 'DOCKER_BUILDKIT=1 docker build -f Dockerfile-pipelines -t nissimacheroff/todo-fe:$BUILD_NUMBER --target delivery .'
             }
         }
         stage('push') {
@@ -29,6 +25,5 @@ pipeline {
             }
         }
     }
-}
 }
 
