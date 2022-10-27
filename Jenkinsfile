@@ -1,35 +1,29 @@
+
+
 pipeline {
     agent any
-    stages {
-        stage('initws & prune') {
+ stage('initws & prune') {
             steps {
                 cleanWs()
             }
         }
-
-        stage('build') {
-            steps { 
-                sh "pwd" 
-                sh "DOCKER_BUILDKIT=1 docker build -t build-image -f docker-pipeline-fe --target builder ."
-                
-                
+    stages {
+      stage('Build stage') {
+            steps {
+              sh 'DOCKER_BUILDKIT=1 docker build -f Dockerfile-pipelines  -t build-test:$BUILD_NUMBER --target builder .'
             }
         }
-        stage('testing') {
-            steps { 
-                sh "DOCKER_BUILDKIT=1 docker build -t build-testing  --target testing -f docker-pipeline-fe ./todo-fe"
-                
-                
+        stage('Test stage') {
+            steps {
+              sh 'DOCKER_BUILDKIT=1 docker build -f Dockerfile-pipelines -t build-test:$BUILD_NUMBER --target test .'
             }
         }
-
-         stage('delivery') {
-            steps { 
-                sh "DOCKER_BUILDKIT=1 docker build -t build-delivery --target delivery-f docker-pipeline-fe ./todo-fe"
+        stage('Delivery stage') {
+            steps {
+                sh 'DOCKER_BUILDKIT=1 docker build -f Dockerfile-pipelines -t nissimacheroff/todo-fe:$BUILD_NUMBER --target delivery .'
             }
         }
-
-         stage('push') {
+                 stage('push') {
             steps { 
                 withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'docker-pwd')]) {
                     sh "docker login -u nissimacheroff -p  ${docker-pwd}"
@@ -38,4 +32,4 @@ pipeline {
         }
     }
 }
-}
+
