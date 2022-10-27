@@ -13,7 +13,7 @@ pipeline {
         }
         stage('Delivery stage') {
             steps {
-                sh 'DOCKER_BUILDKIT=1 docker build -f Dockerfile-pipelines -t nissimacheroff/todo-fe:$BUILD_NUMBER --target delivery .'
+                sh 'DOCKER_BUILDKIT=1 docker build -f Dockerfile-pipelines -t nissimacheroff/todo-fe:jenkins-$BUILD_NUMBER --target delivery .'
             }
         }
         stage('push') {
@@ -22,7 +22,7 @@ pipeline {
             }
             steps {
                     sh 'docker login -u nissimacheroff -p ${dockerpwd}'
-                    sh "docker push nissimacheroff/todo-fe:$BUILD_NUMBER"
+                    sh "docker push nissimacheroff/todo-fe:jenkins-$BUILD_NUMBER"
         }
     }
 }
