@@ -16,6 +16,12 @@ pipeline {
                 sh 'DOCKER_BUILDKIT=1 docker build -f Dockerfile-pipelines -t nissimacheroff/todo-fe:jenkins-$BUILD_NUMBER --target delivery .'
             }
         }
+        stage('Cleanup') {
+            steps {
+                echo "Cleanup-stage"
+                sh 'docker system prune -f'
+            }
+        }
         stage('push') {
             environment {
                 dockerpwd = credentials('docker_pwd')
