@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     stages {
-      stage('Build stage') {
+        stage('Build stage') {
             steps {
               sh 'DOCKER_BUILDKIT=1 docker build -f Dockerfile-pipelines  -t test:$BUILD_NUMBER --target builder .'
             }
