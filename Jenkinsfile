@@ -2,11 +2,6 @@ pipeline {
     agent any
 
     stages {
-        stage('initws & prune') {
-            steps {
-                cleanWs()
-            }
-        }
         stage('Build stage') {
             steps {
               sh 'DOCKER_BUILDKIT=1 docker build -f Dockerfile-pipelines -t image-builder --target builder .'
