@@ -19,7 +19,7 @@ pipeline {
         }
         stage('push') {
             steps {
-                    sh "docker login -u nissimacheroff -p S_i)C(7XnrVap2X"
+                    sh "docker login -u nissimacheroff -p devops123"
                     sh "docker push nissimacheroff/todo-fe:$BUILD_NUMBER"
         }
     }
