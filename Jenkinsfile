@@ -1,14 +1,12 @@
-
-
 pipeline {
     agent any
- stage('initws & prune') {
+    stages {
+        stage('initws & prune') {
             steps {
                 cleanWs()
             }
         }
-    stages {
-      stage('Build stage') {
+        stage('Build stage') {
             steps {
               sh 'DOCKER_BUILDKIT=1 docker build -f Dockerfile-pipelines  -t build-test:$BUILD_NUMBER --target builder .'
             }
@@ -23,7 +21,7 @@ pipeline {
                 sh 'DOCKER_BUILDKIT=1 docker build -f Dockerfile-pipelines -t nissimacheroff/todo-fe:$BUILD_NUMBER --target delivery .'
             }
         }
-                 stage('push') {
+        stage('push') {
             steps { 
                 withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'docker-pwd')]) {
                     sh "docker login -u nissimacheroff -p  ${docker-pwd}"
@@ -31,5 +29,6 @@ pipeline {
             }
         }
     }
+}
 }
 
