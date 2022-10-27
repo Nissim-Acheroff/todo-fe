@@ -18,11 +18,11 @@ pipeline {
         }
         stage('push') {
             environment {
-            docker-pwd = credentials('dockerhub-pwd')
+                dockerpwd = credentials('docker_pwd')
             }
             steps {
-                    sh 'docker login -u nissimacheroff -p $docker-pwd'
-                    sh "docker push nissimacheroff/todo-fe:latest"
+                    sh 'docker login -u nissimacheroff -p ${dockerpwd}'
+                    sh "docker push nissimacheroff/todo-fe:$BUILD_NUMBER"
         }
     }
 }
