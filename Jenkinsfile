@@ -10,7 +10,7 @@ pipeline {
         stage('build') {
             steps { 
                 sh "pwd" 
-                sh "DOCKER_BUILDKIT=1 docker build -t build-image  --target builder -f docker-pipeline-fe ."
+                sh "DOCKER_BUILDKIT=1 docker build -t build-image -f docker-pipeline-fe --target builder ."
                 
                 
             }
