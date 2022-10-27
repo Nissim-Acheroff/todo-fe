@@ -19,8 +19,10 @@ pipeline {
         }
         stage('push') {
             steps {
-                    sh "docker login -u nissimacheroff -p devops123"
-                    sh "docker push nissimacheroff/todo-fe:$BUILD_NUMBER"
+                withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'docker-pwd')]) {
+                    sh "docker login -u nissimacheroff -p  ${docker-pwd}"
+                }
+                    sh "docker push nissimacheroff/todo-fe:latest"
         }
     }
 }
